@@ -237,7 +237,7 @@ class _NavLinkState extends State<_NavLink> {
             style: AppTextStyles.label.copyWith(
               color: _isHovered ? AppColors.cream : AppColors.mutedText,
             ),
-            child: Text(widget.label),
+            child: SelectionContainer.disabled(child: Text(widget.label)),
           ),
         ),
       ),

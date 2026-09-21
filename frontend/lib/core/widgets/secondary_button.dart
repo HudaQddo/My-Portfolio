@@ -32,7 +32,9 @@ class SecondaryButton extends StatelessWidget {
       label: semanticLabel ?? label,
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
-        child: OutlinedButton(onPressed: onPressed, child: child),
+        child: SelectionContainer.disabled(
+          child: OutlinedButton(onPressed: onPressed, child: child),
+        ),
       ),
     );
   }

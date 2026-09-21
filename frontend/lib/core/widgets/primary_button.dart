@@ -32,7 +32,9 @@ class PrimaryButton extends StatelessWidget {
       label: semanticLabel ?? label,
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
-        child: FilledButton(onPressed: onPressed, child: child),
+        child: SelectionContainer.disabled(
+          child: FilledButton(onPressed: onPressed, child: child),
+        ),
       ),
     );
   }

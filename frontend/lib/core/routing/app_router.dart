@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/home/presentation/pages/home_page.dart';
@@ -14,14 +14,16 @@ abstract final class AppRouter {
       GoRoute(
         path: '/',
         name: RouteNames.home,
-        builder: (context, state) => const HomePage(),
+        builder: (context, state) => const SelectionArea(child: HomePage()),
       ),
       GoRoute(
         path: '/projects/:id',
         name: RouteNames.projectDetails,
         builder: (context, state) {
           final projectId = state.pathParameters['id'] ?? '';
-          return ProjectDetailsPage(projectId: projectId);
+          return SelectionArea(
+            child: ProjectDetailsPage(projectId: projectId),
+          );
         },
       ),
     ],

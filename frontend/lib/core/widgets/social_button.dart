@@ -35,7 +35,9 @@ class SocialButton extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(label, style: AppTextStyles.label),
+                SelectionContainer.disabled(
+                  child: Text(label, style: AppTextStyles.label),
+                ),
                 const SizedBox(width: AppSizes.space8),
                 Icon(icon, size: 16, color: AppColors.primary),
               ],
