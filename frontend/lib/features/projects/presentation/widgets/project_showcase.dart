@@ -9,6 +9,7 @@ import '../../../../core/widgets/hover_scale.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/widgets/tech_chip.dart';
 import '../../domain/entities/project.dart';
+import 'project_case_study_sections.dart';
 
 class ProjectShowcase extends StatelessWidget {
   const ProjectShowcase({
@@ -77,29 +78,52 @@ class _ProjectContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '0${index + 1}',
+            project.caseStudy != null
+                ? 'FEATURED / 0${index + 1}'
+                : '0${index + 1}',
             style: AppTextStyles.label.copyWith(color: AppColors.secondary),
           ),
           const SizedBox(height: AppSizes.space12),
           Text(project.title, style: AppTextStyles.headingMedium),
+          if (project.caseStudy != null) ...[
+            const SizedBox(height: AppSizes.space8),
+            Text(project.subtitle, style: AppTextStyles.bodyLarge),
+          ],
           const SizedBox(height: AppSizes.space8),
           Text(
             project.role,
             style: AppTextStyles.label.copyWith(color: AppColors.primary),
           ),
           const SizedBox(height: AppSizes.space16),
-          Text(project.description, style: AppTextStyles.bodyMedium),
+          Text(
+            project.caseStudy?.summary ?? project.description,
+            style: AppTextStyles.bodyMedium,
+          ),
+          if (project.caseStudy != null) ...[
+            const SizedBox(height: AppSizes.space20),
+            Wrap(
+              spacing: AppSizes.space16,
+              runSpacing: AppSizes.space12,
+              children: project.caseStudy!.indicators
+                  .map((label) => Text(label, style: AppTextStyles.label))
+                  .toList(),
+            ),
+          ],
           const SizedBox(height: AppSizes.space20),
           Wrap(
             spacing: AppSizes.space8,
             runSpacing: AppSizes.space8,
-            children: project.technologies
-                .map((technology) => TechChip(label: technology))
-                .toList(),
+            children:
+                (project.caseStudy?.featuredTechnologies ??
+                        project.technologies)
+                    .map((technology) => TechChip(label: technology))
+                    .toList(),
           ),
           const SizedBox(height: AppSizes.space24),
           PrimaryButton(
-            label: 'View Case Study',
+            label: project.caseStudy != null
+                ? 'Explore Case Study'
+                : 'View Case Study',
             icon: Icons.arrow_forward_rounded,
             onPressed: onViewCaseStudy,
           ),
@@ -121,6 +145,9 @@ class ProjectPreviewPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (project.caseStudy != null) {
+      return ProjectEcosystem(project: project, compact: true);
+    }
     return AspectRatio(
       aspectRatio: 1.45,
       child: Container(

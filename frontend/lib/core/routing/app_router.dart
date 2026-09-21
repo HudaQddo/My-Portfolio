@@ -21,9 +21,7 @@ abstract final class AppRouter {
         name: RouteNames.projectDetails,
         builder: (context, state) {
           final projectId = state.pathParameters['id'] ?? '';
-          return SelectionArea(
-            child: ProjectDetailsPage(projectId: projectId),
-          );
+          return SelectionArea(child: ProjectDetailsPage(projectId: projectId));
         },
       ),
     ],
