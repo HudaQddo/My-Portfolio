@@ -11,6 +11,9 @@ import '../../../../core/widgets/tech_chip.dart';
 import '../../domain/entities/project.dart';
 import 'project_case_study_sections.dart';
 import 'project_evolution_timeline.dart';
+import 'project_process.dart';
+import 'project_status_badge.dart';
+import 'project_technology_list.dart';
 
 class ProjectShowcase extends StatelessWidget {
   const ProjectShowcase({
@@ -86,6 +89,10 @@ class _ProjectContent extends StatelessWidget {
           ),
           const SizedBox(height: AppSizes.space12),
           Text(project.title, style: AppTextStyles.headingMedium),
+          if (project.status != null) ...[
+            const SizedBox(height: AppSizes.space12),
+            ProjectStatusBadge(label: project.status!.title),
+          ],
           if (project.caseStudy != null) ...[
             const SizedBox(height: AppSizes.space8),
             Text(project.subtitle, style: AppTextStyles.bodyLarge),
@@ -111,6 +118,11 @@ class _ProjectContent extends StatelessWidget {
             ),
           ],
           const SizedBox(height: AppSizes.space20),
+          if (project.caseStudy?.implementationTechnologies.isNotEmpty ??
+              false) ...[
+            Text('Project stack', style: AppTextStyles.label),
+            const SizedBox(height: AppSizes.space8),
+          ],
           Wrap(
             spacing: AppSizes.space8,
             runSpacing: AppSizes.space8,
@@ -146,6 +158,27 @@ class ProjectPreviewPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final study = project.caseStudy;
+    if (study != null && study.ownership.isNotEmpty) {
+      return AppContainer(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('FRONTEND DELIVERY', style: AppTextStyles.label),
+            const SizedBox(height: AppSizes.space16),
+            Text(project.title, style: AppTextStyles.headingLarge),
+            const SizedBox(height: AppSizes.space24),
+            ProjectTechnologyList(technologies: study.platforms),
+            const SizedBox(height: AppSizes.space24),
+            ProjectProcess(steps: study.journey),
+            if (project.status != null) ...[
+              const SizedBox(height: AppSizes.space24),
+              ProjectStatusBadge(label: project.status!.title),
+            ],
+          ],
+        ),
+      );
+    }
     final evolution = project.caseStudy?.evolution;
     if (evolution != null && evolution.isNotEmpty) {
       return AppContainer(

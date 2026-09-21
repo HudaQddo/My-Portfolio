@@ -9,14 +9,19 @@ import 'project_case_study_sections.dart';
 import 'project_gallery.dart';
 
 class ProjectPlatformShowcase extends StatelessWidget {
-  const ProjectPlatformShowcase({required this.applications, super.key});
+  const ProjectPlatformShowcase({
+    required this.applications,
+    required this.caption,
+    super.key,
+  });
   final List<ProjectApplication> applications;
+  final String caption;
 
   @override
   Widget build(BuildContext context) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text('One platform. Multiple surfaces.', style: AppTextStyles.bodyLarge),
+      Text(caption, style: AppTextStyles.bodyLarge),
       const SizedBox(height: AppSizes.space24),
       ProjectCardLayout(
         children: applications

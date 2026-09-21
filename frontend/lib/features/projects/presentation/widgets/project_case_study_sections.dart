@@ -9,6 +9,7 @@ import '../../../../core/widgets/app_section.dart';
 import '../../../../core/widgets/section_header.dart';
 import '../../domain/entities/project.dart';
 import 'project_technology_list.dart';
+import 'project_process.dart';
 
 class ProjectDetailsSection extends StatelessWidget {
   const ProjectDetailsSection({
@@ -203,53 +204,39 @@ class ProjectEcosystem extends StatelessWidget {
   }
 }
 
-class ProjectManagementSection extends StatelessWidget {
-  const ProjectManagementSection({required this.study, super.key});
-  final ProjectCaseStudy study;
+class ProjectResponsibilitySection extends StatelessWidget {
+  const ProjectResponsibilitySection({
+    required this.title,
+    required this.items,
+    this.journey = const [],
+    super.key,
+  });
+  final String title;
+  final List<ProjectContentGroup> items;
+  final List<String> journey;
 
   @override
   Widget build(BuildContext context) => ProjectDetailsSection(
-    title: 'Project Management',
+    title: title,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ProjectCardLayout(
-          children: study.management.indexed
+          children: items.indexed
               .map(
                 (entry) => ProjectContentCard(
-                  eyebrow: '0${entry.$1 + 1}',
+                  eyebrow: entry.$2.label ?? '0${entry.$1 + 1}',
                   title: entry.$2.title,
                   description: entry.$2.description,
                 ),
               )
               .toList(),
         ),
-        if (study.journey.isNotEmpty) ...[
+        if (journey.isNotEmpty) ...[
           const SizedBox(height: AppSizes.space24),
           Text('Project journey', style: AppTextStyles.label),
           const SizedBox(height: AppSizes.space12),
-          Wrap(
-            spacing: AppSizes.space8,
-            runSpacing: AppSizes.space12,
-            children: study.journey.indexed
-                .map(
-                  (entry) => Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (entry.$1 > 0) ...[
-                        const Icon(
-                          Icons.arrow_forward_rounded,
-                          size: 16,
-                          color: AppColors.secondary,
-                        ),
-                        const SizedBox(width: AppSizes.space8),
-                      ],
-                      Text(entry.$2, style: AppTextStyles.bodyMedium),
-                    ],
-                  ),
-                )
-                .toList(),
-          ),
+          ProjectProcess(steps: journey),
         ],
       ],
     ),
@@ -268,12 +255,12 @@ class ProjectChallengeSection extends StatelessWidget {
         ProjectContentCard(
           eyebrow: 'THE CHALLENGE',
           title: study.challengeTitle,
-          description: study.challenge,
+          description: study.challenge!,
         ),
         ProjectContentCard(
           eyebrow: 'OUR APPROACH',
           title: study.approachTitle,
-          description: study.approach,
+          description: study.approach!,
         ),
       ],
     ),
@@ -296,6 +283,14 @@ class ProjectTechnicalSection extends StatelessWidget {
             style: AppTextStyles.bodyLarge,
           ),
           const SizedBox(height: AppSizes.space24),
+          if (project.caseStudy!.implementationTechnologies.isNotEmpty) ...[
+            Text('My implementation', style: AppTextStyles.label),
+            const SizedBox(height: AppSizes.space12),
+            ProjectTechnologyList(
+              technologies: project.caseStudy!.implementationTechnologies,
+            ),
+            const SizedBox(height: AppSizes.space24),
+          ],
           Text('Project technologies', style: AppTextStyles.label),
           const SizedBox(height: AppSizes.space12),
           ProjectTechnologyList(technologies: project.technologies),

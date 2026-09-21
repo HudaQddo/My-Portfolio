@@ -2,6 +2,14 @@ import '../domain/entities/project.dart';
 import '../../../core/constants/app_assets.dart';
 
 abstract final class ProjectData {
+  static const _chefWeb = ProjectImage(
+    caption: 'Web menu & offers',
+    assetPath: AppAssets.chefOmarWebScreenshot,
+  );
+  static const _chefMobile = ProjectImage(
+    caption: 'Mobile ordering experience',
+    assetPath: AppAssets.chefOmarMobileScreenshot,
+  );
   static const _dwamieyWeb = ProjectImage(
     caption: 'Web dashboard',
     assetPath: AppAssets.dwamieyWebScreenshot,
@@ -306,25 +314,153 @@ abstract final class ProjectData {
     ),
     Project(
       id: 'restaurant-ordering-platform',
-      title: 'Restaurant Ordering Platform',
-      subtitle: 'Ordering experience for Android, iOS, and Web',
-      role: 'Flutter Developer',
+      title: 'Chef Omar',
+      subtitle: 'Restaurant Ordering Platform',
+      role: 'Flutter Developer · Frontend Owner',
+      status: ProjectContentGroup(
+        title: 'Production',
+        description:
+            'Built from scratch and successfully released as a production web and mobile platform.',
+      ),
       description:
-          'Cross-platform restaurant ordering solution for Android, iOS, and Web.',
+          'Chef Omar is a restaurant ordering platform built from scratch for a restaurant chain, allowing customers to browse menus and offers, manage delivery addresses, and place online orders through a complete cart and ordering flow.',
       contributions: [
-        'Developed Flutter mobile applications',
-        'Integrated REST APIs',
-        'Implemented authentication flows',
-        'Supported production releases',
-        'Published applications to Google Play and Apple App Store',
+        'Designed interfaces without pre-existing UI/UX designs',
+        'Built the complete Flutter frontend for web and mobile',
+        'Integrated Django REST APIs with the backend developer',
+        'Took the frontend through testing and production release',
       ],
-      technologies: ['Flutter', 'Dart', 'REST APIs', 'Android', 'iOS'],
+      technologies: ['Flutter', 'Dart', 'REST APIs', 'Django'],
       images: [
-        ProjectImage(caption: 'Menu browsing'),
-        ProjectImage(caption: 'Checkout flow'),
-        ProjectImage(caption: 'Order tracking'),
+        ProjectImage(
+          caption: 'Cart & ordering',
+          assetPath: AppAssets.chefOmarCartScreenshot,
+        ),
+        ProjectImage(
+          caption: 'Delivery addresses',
+          assetPath: AppAssets.chefOmarAddressScreenshot,
+        ),
       ],
       type: ProjectType.mobile,
+      caseStudy: ProjectCaseStudy(
+        summary:
+            'Built the complete Flutter frontend for web and mobile from scratch, including interface design and Django API integration, as part of a two-developer team.',
+        platforms: ['Web', 'Android', 'iOS'],
+        indicators: ['Web + Mobile', 'Built from Scratch', 'Production'],
+        featuredTechnologies: ['Flutter', 'Dart', 'REST APIs', 'Django'],
+        roles: [
+          ProjectContentGroup(
+            label: 'FRONTEND OWNERSHIP',
+            title: 'From scratch to production',
+            description:
+                'I owned the complete Flutter frontend across web and mobile, from initial implementation through API integration, testing, and production delivery.',
+          ),
+          ProjectContentGroup(
+            label: 'INTERFACE DESIGN',
+            title: 'From requirements to interface',
+            description:
+                'With no separate UI/UX designer or existing designs, I designed the application interfaces while building the frontend.',
+          ),
+        ],
+        ownership: [
+          ProjectContentGroup(
+            title: 'UI Design',
+            description:
+                'Designed the interfaces from scratch without pre-existing UI/UX designs.',
+          ),
+          ProjectContentGroup(
+            title: 'Cross-Platform Development',
+            description:
+                'Built the complete customer-facing Flutter experience for web and mobile.',
+          ),
+          ProjectContentGroup(
+            title: 'Backend Integration',
+            description:
+                'Integrated Django REST APIs and coordinated API requirements directly with the backend developer.',
+          ),
+          ProjectContentGroup(
+            title: 'Production Delivery',
+            description:
+                'Took the frontend through implementation, integration, testing, and production release.',
+          ),
+        ],
+        journey: [
+          'Requirements',
+          'UI Design',
+          'Flutter Development',
+          'API Integration',
+          'Testing',
+          'Production',
+        ],
+        capabilities: [
+          ProjectContentGroup(
+            title: 'Menu & Offers',
+            description: 'Food menu • Categories • Restaurant offers',
+          ),
+          ProjectContentGroup(
+            title: 'Ordering',
+            description:
+                'Shopping cart • Order creation • Complete ordering flow',
+          ),
+          ProjectContentGroup(
+            title: 'Customer',
+            description: 'Delivery addresses • Customer information',
+          ),
+          ProjectContentGroup(
+            title: 'Support',
+            description: 'Complaints system',
+          ),
+        ],
+        customerFlow: [
+          'Browse Menu',
+          'Select Items',
+          'Add to Cart',
+          'Choose / Manage Address',
+          'Place Order',
+        ],
+        platformCaption:
+            'One Flutter frontend experience delivered across web and mobile.',
+        applications: [
+          ProjectApplication(
+            name: 'Web Application',
+            platform: 'Web',
+            description:
+                'I built the Flutter web frontend, from browsing menus and offers to placing an order.',
+            image: _chefWeb,
+          ),
+          ProjectApplication(
+            name: 'Mobile Application',
+            platform: 'Mobile',
+            description:
+                'I built the Flutter mobile frontend for Android and iOS, including cart, delivery addresses, and ordering.',
+            image: _chefMobile,
+          ),
+        ],
+        team: [
+          ProjectContentGroup(
+            label: 'ME',
+            title: 'Flutter Frontend',
+            description:
+                'Interface design, complete web and mobile implementation, and REST API integration.',
+          ),
+          ProjectContentGroup(
+            label: 'BACKEND DEVELOPER',
+            title: 'Django Backend',
+            description:
+                'Backend implementation. We coordinated requirements, API contracts, implementation decisions, and integration directly.',
+          ),
+        ],
+        technicalTitle: 'Technical Contribution',
+        technicalContribution:
+            'I implemented the complete Flutter frontend for web and mobile and integrated it with Django REST APIs. The other developer owned the Django backend.',
+        implementationTechnologies: [
+          'Flutter',
+          'Dart',
+          'Web',
+          'Mobile',
+          'REST API Integration',
+        ],
+      ),
     ),
   ];
 

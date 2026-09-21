@@ -18,6 +18,8 @@ import '../widgets/project_technology_list.dart';
 import '../widgets/project_case_study_sections.dart';
 import '../widgets/project_evolution_timeline.dart';
 import '../widgets/project_platform_showcase.dart';
+import '../widgets/project_process.dart';
+import '../widgets/project_status_badge.dart';
 
 class ProjectDetailsPage extends StatelessWidget {
   const ProjectDetailsPage({required this.projectId, super.key});
@@ -69,6 +71,12 @@ class ProjectDetailsPage extends StatelessWidget {
                       ),
                     ),
                   ProjectRoleSection(project: project),
+                  if (project.caseStudy!.ownership.isNotEmpty)
+                    ProjectResponsibilitySection(
+                      title: 'Frontend Ownership',
+                      items: project.caseStudy!.ownership,
+                      journey: project.caseStudy!.journey,
+                    ),
                   if (project.caseStudy!.capabilities.isNotEmpty) ...[
                     ProjectDetailsSection(
                       title: 'Platform Capabilities',
@@ -84,10 +92,18 @@ class ProjectDetailsPage extends StatelessWidget {
                             .toList(),
                       ),
                     ),
+                    if (project.caseStudy!.customerFlow.isNotEmpty)
+                      ProjectDetailsSection(
+                        title: 'Ordering Flow',
+                        child: ProjectProcess(
+                          steps: project.caseStudy!.customerFlow,
+                        ),
+                      ),
                     ProjectDetailsSection(
                       title: 'Web + Mobile',
                       child: ProjectPlatformShowcase(
                         applications: project.caseStudy!.applications,
+                        caption: project.caseStudy!.platformCaption,
                       ),
                     ),
                   ] else
@@ -95,9 +111,38 @@ class ProjectDetailsPage extends StatelessWidget {
                       title: 'The Ecosystem',
                       child: ProjectEcosystem(project: project),
                     ),
-                  ProjectManagementSection(study: project.caseStudy!),
-                  ProjectChallengeSection(study: project.caseStudy!),
+                  if (project.caseStudy!.team.isNotEmpty)
+                    ProjectResponsibilitySection(
+                      title: 'Two-Developer Collaboration',
+                      items: project.caseStudy!.team,
+                    ),
+                  if (project.caseStudy!.management.isNotEmpty)
+                    ProjectResponsibilitySection(
+                      title: 'Project Management',
+                      items: project.caseStudy!.management,
+                      journey: project.caseStudy!.journey,
+                    ),
+                  if (project.caseStudy!.challenge != null &&
+                      project.caseStudy!.approach != null)
+                    ProjectChallengeSection(study: project.caseStudy!),
                   ProjectTechnicalSection(project: project),
+                  if (project.status case final status?)
+                    ProjectDetailsSection(
+                      title: 'Production Delivery',
+                      child: AppContainer(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ProjectStatusBadge(label: status.title),
+                            const SizedBox(height: AppSizes.space16),
+                            Text(
+                              status.description,
+                              style: AppTextStyles.bodyLarge,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                 ] else ...[
                   ProjectDetailsSection(
                     title: 'My Role',
@@ -195,6 +240,10 @@ class _ProjectHero extends StatelessWidget {
         ),
         const SizedBox(height: AppSizes.space16),
         Text(project.subtitle, style: AppTextStyles.bodyLarge),
+        if (project.status != null) ...[
+          const SizedBox(height: AppSizes.space16),
+          ProjectStatusBadge(label: project.status!.title),
+        ],
         if (project.caseStudy != null) ...[
           const SizedBox(height: AppSizes.space16),
           Text(project.role, style: AppTextStyles.label),

@@ -27,6 +27,24 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Dwamiey'), findsWidgets);
     expect(find.text('Product Evolution'), findsOneWidget);
+    await tester.ensureVisible(find.text('Open'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+    expect(find.text('Chef Omar'), findsWidgets);
+    expect(find.text('Frontend Ownership'), findsOneWidget);
+    await tester.ensureVisible(find.text('Open'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+    expect(find.text('The Ecosystem'), findsOneWidget);
+    await tester.tap(find.byTooltip('Back to portfolio'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Explore Case Study').last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Explore Case Study').last);
+    await tester.pumpAndSettle();
+    expect(find.text('Ordering Flow'), findsOneWidget);
     expect(tester.takeException(), isNull);
     AppRouter.router.go('/');
     await tester.pumpAndSettle();
@@ -57,6 +75,45 @@ void main() {
   }
 
   for (final viewport in [const Size(320, 740), ...viewports]) {
+    testWidgets('Chef Omar case study renders at ${viewport.width}px width', (
+      tester,
+    ) async {
+      tester.view
+        ..physicalSize = viewport
+        ..devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark,
+          home: MediaQuery(
+            data: MediaQueryData(
+              size: viewport,
+              textScaler: TextScaler.linear(1.2),
+            ),
+            child: const SelectionArea(
+              child: ProjectDetailsPage(
+                projectId: 'restaurant-ordering-platform',
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Frontend Ownership'), findsOneWidget);
+      expect(find.text('Ordering Flow'), findsOneWidget);
+      expect(find.text('Two-Developer Collaboration'), findsOneWidget);
+      expect(find.text('My implementation'), findsOneWidget);
+      expect(find.text('Production'), findsWidgets);
+      expect(find.text('Project Management'), findsNothing);
+      expect(find.text('AI-Assisted Development'), findsNothing);
+      expect(tester.takeException(), isNull);
+      await tester.drag(find.byType(CustomScrollView), const Offset(0, -18000));
+      await tester.pumpAndSettle();
+      expect(find.text('Next Project').hitTestable(), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
     testWidgets('Dwamiey case study renders at ${viewport.width}px width', (
       tester,
     ) async {

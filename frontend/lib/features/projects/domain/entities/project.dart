@@ -12,6 +12,7 @@ class Project {
     required this.images,
     required this.type,
     this.caseStudy,
+    this.status,
   });
 
   final String id;
@@ -24,6 +25,7 @@ class Project {
   final List<ProjectImage> images;
   final ProjectType type;
   final ProjectCaseStudy? caseStudy;
+  final ProjectContentGroup? status;
 
   String get route => '/projects/$id';
 }
@@ -72,17 +74,22 @@ class ProjectCaseStudy {
     required this.featuredTechnologies,
     required this.roles,
     required this.applications,
-    required this.management,
+    this.management = const [],
     this.journey = const [],
-    required this.challenge,
-    required this.approach,
+    this.challenge,
+    this.approach,
     required this.technicalContribution,
     required this.technicalTitle,
-    required this.challengeTitle,
-    required this.approachTitle,
+    this.challengeTitle = 'The Challenge',
+    this.approachTitle = 'Our Approach',
     this.evolution = const [],
     this.capabilities = const [],
     this.technicalNote,
+    this.ownership = const [],
+    this.customerFlow = const [],
+    this.team = const [],
+    this.implementationTechnologies = const [],
+    this.platformCaption = 'One platform. Multiple surfaces.',
   });
 
   final String summary;
@@ -93,8 +100,8 @@ class ProjectCaseStudy {
   final List<ProjectApplication> applications;
   final List<ProjectContentGroup> management;
   final List<String> journey;
-  final String challenge;
-  final String approach;
+  final String? challenge;
+  final String? approach;
   final String technicalContribution;
   final String technicalTitle;
   final String challengeTitle;
@@ -102,4 +109,9 @@ class ProjectCaseStudy {
   final List<ProjectContentGroup> evolution;
   final List<ProjectContentGroup> capabilities;
   final ProjectContentGroup? technicalNote;
+  final List<ProjectContentGroup> ownership;
+  final List<String> customerFlow;
+  final List<ProjectContentGroup> team;
+  final List<String> implementationTechnologies;
+  final String platformCaption;
 }
