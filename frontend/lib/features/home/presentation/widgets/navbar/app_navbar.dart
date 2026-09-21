@@ -5,7 +5,6 @@ import '../../../../../core/constants/app_sizes.dart';
 import '../../../../../core/constants/app_strings.dart';
 import '../../../../../core/responsive/responsive_extensions.dart';
 import '../../../../../core/theme/app_text_styles.dart';
-import '../../../../../core/utils/url_launcher_helper.dart';
 import '../../../../../core/widgets/app_icon_button.dart';
 import '../../../../../core/widgets/primary_button.dart';
 import '../../pages/home_page.dart';
@@ -89,7 +88,7 @@ class AppNavbar extends StatelessWidget {
                   PrimaryButton(
                     label: 'Download CV',
                     icon: Icons.download_rounded,
-                    semanticLabel: 'Request Huda Qddo CV',
+                    semanticLabel: 'Download Huda Qddo CV',
                     onPressed: onDownloadCv,
                   ),
                 ],
@@ -103,9 +102,14 @@ class AppNavbar extends StatelessWidget {
 }
 
 class AppNavDrawer extends StatelessWidget {
-  const AppNavDrawer({required this.onSectionSelected, super.key});
+  const AppNavDrawer({
+    required this.onSectionSelected,
+    required this.onDownloadCv,
+    super.key,
+  });
 
   final ValueChanged<HomeSectionId> onSectionSelected;
+  final VoidCallback onDownloadCv;
 
   @override
   Widget build(BuildContext context) {
@@ -127,10 +131,7 @@ class AppNavDrawer extends StatelessWidget {
               PrimaryButton(
                 label: 'Download CV',
                 icon: Icons.download_rounded,
-                onPressed: () => UrlLauncherHelper.openEmail(
-                  'hudaqddo@gmail.com',
-                  subject: 'CV request',
-                ),
+                onPressed: onDownloadCv,
               ),
             ],
           ),

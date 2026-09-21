@@ -3,8 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/utils/scroll_helper.dart';
-import '../../../../core/utils/url_launcher_helper.dart';
-import '../../../contact/data/contact_data.dart';
+import '../../../../core/utils/cv_download.dart';
 import '../widgets/about/about_section.dart';
 import '../widgets/contact/contact_section.dart';
 import '../widgets/education/education_section.dart';
@@ -60,12 +59,29 @@ class _HomePageState extends State<HomePage> {
 
   void _openProject(String route) => context.go(route);
 
+  void _downloadCv() {
+    try {
+      downloadCv();
+    } catch (_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Unable to download CV. Please try again in your browser.',
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: AppColors.background,
-      endDrawer: AppNavDrawer(onSectionSelected: _scrollToSection),
+      endDrawer: AppNavDrawer(
+        onSectionSelected: _scrollToSection,
+        onDownloadCv: _downloadCv,
+      ),
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
@@ -75,10 +91,7 @@ class _HomePageState extends State<HomePage> {
               isScrolled: _isScrolled,
               onSectionSelected: _scrollToSection,
               onMenuPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
-              onDownloadCv: () => UrlLauncherHelper.openEmail(
-                ContactData.email,
-                subject: 'CV request',
-              ),
+              onDownloadCv: _downloadCv,
             ),
           ),
           SliverToBoxAdapter(
