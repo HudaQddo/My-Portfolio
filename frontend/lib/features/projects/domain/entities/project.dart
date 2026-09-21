@@ -21,7 +21,7 @@ class Project {
   final String description;
   final List<String> contributions;
   final List<String> technologies;
-  final List<String> images;
+  final List<ProjectImage> images;
   final ProjectType type;
   final ProjectCaseStudy? caseStudy;
 
@@ -29,10 +29,21 @@ class Project {
 }
 
 class ProjectContentGroup {
-  const ProjectContentGroup({required this.title, required this.description});
+  const ProjectContentGroup({
+    required this.title,
+    required this.description,
+    this.label,
+  });
 
   final String title;
   final String description;
+  final String? label;
+}
+
+class ProjectImage {
+  const ProjectImage({required this.caption, this.assetPath});
+  final String caption;
+  final String? assetPath;
 }
 
 class ProjectApplication {
@@ -40,8 +51,9 @@ class ProjectApplication {
     required this.name,
     required this.platform,
     required this.description,
-    required this.modules,
+    this.modules = const [],
     this.contribution,
+    this.image,
   });
 
   final String name;
@@ -49,6 +61,7 @@ class ProjectApplication {
   final String description;
   final List<ProjectContentGroup> modules;
   final String? contribution;
+  final ProjectImage? image;
 }
 
 class ProjectCaseStudy {
@@ -57,24 +70,36 @@ class ProjectCaseStudy {
     required this.platforms,
     required this.indicators,
     required this.featuredTechnologies,
-    required this.roleSummary,
+    required this.roles,
     required this.applications,
     required this.management,
-    required this.journey,
+    this.journey = const [],
     required this.challenge,
     required this.approach,
     required this.technicalContribution,
+    required this.technicalTitle,
+    required this.challengeTitle,
+    required this.approachTitle,
+    this.evolution = const [],
+    this.capabilities = const [],
+    this.technicalNote,
   });
 
   final String summary;
   final List<String> platforms;
   final List<String> indicators;
   final List<String> featuredTechnologies;
-  final String roleSummary;
+  final List<ProjectContentGroup> roles;
   final List<ProjectApplication> applications;
   final List<ProjectContentGroup> management;
   final List<String> journey;
   final String challenge;
   final String approach;
   final String technicalContribution;
+  final String technicalTitle;
+  final String challengeTitle;
+  final String approachTitle;
+  final List<ProjectContentGroup> evolution;
+  final List<ProjectContentGroup> capabilities;
+  final ProjectContentGroup? technicalNote;
 }

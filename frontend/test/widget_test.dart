@@ -16,17 +16,17 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
     await tester.pumpWidget(const PortfolioApp());
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Explore Case Study'));
+    await tester.ensureVisible(find.text('Explore Case Study').first);
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Explore Case Study'));
+    await tester.tap(find.text('Explore Case Study').first);
     await tester.pumpAndSettle();
     expect(find.text('The Ecosystem'), findsOneWidget);
     await tester.ensureVisible(find.text('Open'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
-    expect(find.text('Enterprise Management System'), findsWidgets);
-    expect(find.text('Technology Stack'), findsOneWidget);
+    expect(find.text('Dwamiey'), findsWidgets);
+    expect(find.text('Product Evolution'), findsOneWidget);
     expect(tester.takeException(), isNull);
     AppRouter.router.go('/');
     await tester.pumpAndSettle();
@@ -57,6 +57,44 @@ void main() {
   }
 
   for (final viewport in [const Size(320, 740), ...viewports]) {
+    testWidgets('Dwamiey case study renders at ${viewport.width}px width', (
+      tester,
+    ) async {
+      tester.view
+        ..physicalSize = viewport
+        ..devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark,
+          home: MediaQuery(
+            data: MediaQueryData(
+              size: viewport,
+              textScaler: TextScaler.linear(1.2),
+            ),
+            child: const SelectionArea(
+              child: ProjectDetailsPage(
+                projectId: 'enterprise-management-system',
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Product Evolution'), findsOneWidget);
+      expect(find.text('Platform Capabilities'), findsOneWidget);
+      expect(find.text('Working Beyond My Primary Stack'), findsOneWidget);
+      expect(find.text('AI-Assisted Development'), findsOneWidget);
+      expect(find.text('Developed entirely by me using Flutter'), findsNothing);
+      expect(find.text('The Ecosystem'), findsNothing);
+      expect(tester.takeException(), isNull);
+      await tester.drag(find.byType(CustomScrollView), const Offset(0, -18000));
+      await tester.pumpAndSettle();
+      expect(find.text('Next Project').hitTestable(), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
     testWidgets('Midadd case study renders at ${viewport.width}px width', (
       tester,
     ) async {

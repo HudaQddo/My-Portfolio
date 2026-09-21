@@ -4,5 +4,10 @@ abstract final class AppAssets {
   static const logoRoot = 'assets/logos/';
   static const projectRoot = 'assets/projects/';
 
+  // Set these to paths under projectRoot when approved screenshots are added.
+  static const String? dwamieyWebScreenshot = null;
+  static const String? dwamieyMobileScreenshot = null;
+  static const String? dwamieyCommunicationScreenshot = null;
+
   static const cv = 'assets/Huda_Qddo_CV.pdf';
 }

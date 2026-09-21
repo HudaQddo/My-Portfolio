@@ -16,6 +16,8 @@ import '../widgets/project_gallery.dart';
 import '../widgets/project_showcase.dart';
 import '../widgets/project_technology_list.dart';
 import '../widgets/project_case_study_sections.dart';
+import '../widgets/project_evolution_timeline.dart';
+import '../widgets/project_platform_showcase.dart';
 
 class ProjectDetailsPage extends StatelessWidget {
   const ProjectDetailsPage({required this.projectId, super.key});
@@ -59,11 +61,40 @@ class ProjectDetailsPage extends StatelessWidget {
                   ),
                 ),
                 if (project.caseStudy != null) ...[
+                  if (project.caseStudy!.evolution.isNotEmpty)
+                    ProjectDetailsSection(
+                      title: 'Product Evolution',
+                      child: ProjectEvolutionTimeline(
+                        steps: project.caseStudy!.evolution,
+                      ),
+                    ),
                   ProjectRoleSection(project: project),
-                  ProjectDetailsSection(
-                    title: 'The Ecosystem',
-                    child: ProjectEcosystem(project: project),
-                  ),
+                  if (project.caseStudy!.capabilities.isNotEmpty) ...[
+                    ProjectDetailsSection(
+                      title: 'Platform Capabilities',
+                      child: ProjectCardLayout(
+                        children: project.caseStudy!.capabilities.indexed
+                            .map(
+                              (entry) => ProjectContentCard(
+                                eyebrow: '0${entry.$1 + 1}',
+                                title: entry.$2.title,
+                                description: entry.$2.description,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                    ProjectDetailsSection(
+                      title: 'Web + Mobile',
+                      child: ProjectPlatformShowcase(
+                        applications: project.caseStudy!.applications,
+                      ),
+                    ),
+                  ] else
+                    ProjectDetailsSection(
+                      title: 'The Ecosystem',
+                      child: ProjectEcosystem(project: project),
+                    ),
                   ProjectManagementSection(study: project.caseStudy!),
                   ProjectChallengeSection(study: project.caseStudy!),
                   ProjectTechnicalSection(project: project),
@@ -185,7 +216,7 @@ class _ProjectHero extends StatelessWidget {
                   Expanded(child: heading),
                   const SizedBox(width: AppSizes.space48),
                   Expanded(
-                    child: ProjectEcosystem(project: project, compact: true),
+                    child: ProjectPreviewPanel(project: project, index: 0),
                   ),
                 ],
               ),

@@ -80,20 +80,17 @@ class ProjectRoleSection extends StatelessWidget {
     return ProjectDetailsSection(
       title: 'My Role',
       child: ProjectCardLayout(
-        children: [
-          _ContentCard(
-            eyebrow: '01 / PROJECT MANAGEMENT',
-            title: 'From idea to development',
-            description: study.roleSummary,
-            emphasized: true,
-          ),
-          _ContentCard(
-            eyebrow: '02 / FLUTTER DEVELOPMENT',
-            title: 'The complete desktop application',
-            description: study.technicalContribution,
-            emphasized: true,
-          ),
-        ],
+        children: study.roles.indexed
+            .map(
+              (entry) => ProjectContentCard(
+                eyebrow:
+                    '0${entry.$1 + 1} / ${entry.$2.label ?? entry.$2.title}',
+                title: entry.$2.title,
+                description: entry.$2.description,
+                emphasized: true,
+              ),
+            )
+            .toList(),
       ),
     );
   }
@@ -121,10 +118,7 @@ class ProjectEcosystem extends StatelessWidget {
             const SizedBox(height: AppSizes.space16),
             Text(project.title, style: AppTextStyles.headingLarge),
             const SizedBox(height: AppSizes.space8),
-            Text(
-              'Academic & administrative operations',
-              style: AppTextStyles.bodyMedium,
-            ),
+            Text(project.subtitle, style: AppTextStyles.bodyMedium),
             const SizedBox(height: AppSizes.space24),
             ...applications.indexed.map(
               (entry) => Padding(
@@ -222,7 +216,7 @@ class ProjectManagementSection extends StatelessWidget {
         ProjectCardLayout(
           children: study.management.indexed
               .map(
-                (entry) => _ContentCard(
+                (entry) => ProjectContentCard(
                   eyebrow: '0${entry.$1 + 1}',
                   title: entry.$2.title,
                   description: entry.$2.description,
@@ -230,31 +224,33 @@ class ProjectManagementSection extends StatelessWidget {
               )
               .toList(),
         ),
-        const SizedBox(height: AppSizes.space24),
-        Text('Project journey', style: AppTextStyles.label),
-        const SizedBox(height: AppSizes.space12),
-        Wrap(
-          spacing: AppSizes.space8,
-          runSpacing: AppSizes.space12,
-          children: study.journey.indexed
-              .map(
-                (entry) => Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (entry.$1 > 0) ...[
-                      const Icon(
-                        Icons.arrow_forward_rounded,
-                        size: 16,
-                        color: AppColors.secondary,
-                      ),
-                      const SizedBox(width: AppSizes.space8),
+        if (study.journey.isNotEmpty) ...[
+          const SizedBox(height: AppSizes.space24),
+          Text('Project journey', style: AppTextStyles.label),
+          const SizedBox(height: AppSizes.space12),
+          Wrap(
+            spacing: AppSizes.space8,
+            runSpacing: AppSizes.space12,
+            children: study.journey.indexed
+                .map(
+                  (entry) => Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (entry.$1 > 0) ...[
+                        const Icon(
+                          Icons.arrow_forward_rounded,
+                          size: 16,
+                          color: AppColors.secondary,
+                        ),
+                        const SizedBox(width: AppSizes.space8),
+                      ],
+                      Text(entry.$2, style: AppTextStyles.bodyMedium),
                     ],
-                    Text(entry.$2, style: AppTextStyles.bodyMedium),
-                  ],
-                ),
-              )
-              .toList(),
-        ),
+                  ),
+                )
+                .toList(),
+          ),
+        ],
       ],
     ),
   );
@@ -269,14 +265,14 @@ class ProjectChallengeSection extends StatelessWidget {
     title: 'Key Challenge & Approach',
     child: ProjectCardLayout(
       children: [
-        _ContentCard(
+        ProjectContentCard(
           eyebrow: 'THE CHALLENGE',
-          title: 'Scope, time & dependencies',
+          title: study.challengeTitle,
           description: study.challenge,
         ),
-        _ContentCard(
+        ProjectContentCard(
           eyebrow: 'OUR APPROACH',
-          title: 'Clear features. Parallel work.',
+          title: study.approachTitle,
           description: study.approach,
         ),
       ],
@@ -290,7 +286,7 @@ class ProjectTechnicalSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ProjectDetailsSection(
-    title: 'Administration Application',
+    title: project.caseStudy!.technicalTitle,
     child: AppContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -300,19 +296,31 @@ class ProjectTechnicalSection extends StatelessWidget {
             style: AppTextStyles.bodyLarge,
           ),
           const SizedBox(height: AppSizes.space24),
+          Text('Project technologies', style: AppTextStyles.label),
+          const SizedBox(height: AppSizes.space12),
           ProjectTechnologyList(technologies: project.technologies),
+          if (project.caseStudy!.technicalNote case final note?) ...[
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: AppSizes.space24),
+              child: Divider(color: AppColors.border),
+            ),
+            Text(note.title, style: AppTextStyles.label),
+            const SizedBox(height: AppSizes.space8),
+            Text(note.description, style: AppTextStyles.bodyMedium),
+          ],
         ],
       ),
     ),
   );
 }
 
-class _ContentCard extends StatelessWidget {
-  const _ContentCard({
+class ProjectContentCard extends StatelessWidget {
+  const ProjectContentCard({
     required this.eyebrow,
     required this.title,
     required this.description,
     this.emphasized = false,
+    super.key,
   });
   final String eyebrow;
   final String title;

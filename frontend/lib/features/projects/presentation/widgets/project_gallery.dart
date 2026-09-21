@@ -3,39 +3,36 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../domain/entities/project.dart';
+import 'project_case_study_sections.dart';
 
 class ProjectGallery extends StatelessWidget {
   const ProjectGallery({required this.items, super.key});
 
-  final List<String> items;
+  final List<ProjectImage> items;
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final columns = constraints.maxWidth > 820 ? 3 : 1;
-        return GridView.count(
-          crossAxisCount: columns,
-          crossAxisSpacing: AppSizes.space16,
-          mainAxisSpacing: AppSizes.space16,
-          childAspectRatio: columns == 1 ? 2.6 : 1.4,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          children: items.map((item) => _GalleryItem(label: item)).toList(),
-        );
-      },
+    return ProjectCardLayout(
+      desktopColumns: 3,
+      children: items.map((item) => ProjectImagePreview(image: item)).toList(),
     );
   }
 }
 
-class _GalleryItem extends StatelessWidget {
-  const _GalleryItem({required this.label});
+class ProjectImagePreview extends StatelessWidget {
+  const ProjectImagePreview({
+    required this.image,
+    this.aspectRatio = 1.6,
+    super.key,
+  });
 
-  final String label;
+  final ProjectImage image;
+  final double aspectRatio;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final placeholder = Container(
       padding: const EdgeInsets.all(AppSizes.space20),
       decoration: BoxDecoration(
         color: AppColors.surfaceSecondary,
@@ -46,10 +43,36 @@ class _GalleryItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Icon(Icons.image_outlined, color: AppColors.primary),
-          const Spacer(),
-          Text(label, style: AppTextStyles.label),
+          const SizedBox(height: AppSizes.space16),
+          Text(image.caption, style: AppTextStyles.label),
+          const SizedBox(height: AppSizes.space8),
+          Text('Screenshot placeholder', style: AppTextStyles.bodyMedium),
         ],
       ),
+    );
+    if (image.assetPath == null) {
+      return aspectRatio < 1
+          ? AspectRatio(aspectRatio: aspectRatio, child: placeholder)
+          : placeholder;
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(AppSizes.radius12),
+          child: AspectRatio(
+            aspectRatio: aspectRatio,
+            child: Image.asset(
+              image.assetPath!,
+              fit: BoxFit.contain,
+              semanticLabel: image.caption,
+              errorBuilder: (_, error, stack) => placeholder,
+            ),
+          ),
+        ),
+        const SizedBox(height: AppSizes.space12),
+        Text(image.caption, style: AppTextStyles.label),
+      ],
     );
   }
 }

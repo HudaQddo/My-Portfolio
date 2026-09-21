@@ -10,6 +10,7 @@ import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/widgets/tech_chip.dart';
 import '../../domain/entities/project.dart';
 import 'project_case_study_sections.dart';
+import 'project_evolution_timeline.dart';
 
 class ProjectShowcase extends StatelessWidget {
   const ProjectShowcase({
@@ -145,6 +146,24 @@ class ProjectPreviewPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final evolution = project.caseStudy?.evolution;
+    if (evolution != null && evolution.isNotEmpty) {
+      return AppContainer(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('PRODUCT EVOLUTION', style: AppTextStyles.label),
+            const SizedBox(height: AppSizes.space16),
+            Text(project.title, style: AppTextStyles.headingLarge),
+            const SizedBox(height: AppSizes.space24),
+            ProjectEvolutionTimeline(
+              steps: [evolution.first, evolution.last],
+              compact: true,
+            ),
+          ],
+        ),
+      );
+    }
     if (project.caseStudy != null) {
       return ProjectEcosystem(project: project, compact: true);
     }

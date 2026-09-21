@@ -1,6 +1,15 @@
 import '../domain/entities/project.dart';
+import '../../../core/constants/app_assets.dart';
 
 abstract final class ProjectData {
+  static const _dwamieyWeb = ProjectImage(
+    caption: 'Web dashboard',
+    assetPath: AppAssets.dwamieyWebScreenshot,
+  );
+  static const _dwamieyMobile = ProjectImage(
+    caption: 'Mobile application',
+    assetPath: AppAssets.dwamieyMobileScreenshot,
+  );
   static const projects = [
     Project(
       id: 'educational-management-system',
@@ -30,8 +39,23 @@ abstract final class ProjectData {
         platforms: ['Desktop', 'Android', 'iOS'],
         indicators: ['3 Applications', '3 User Groups', 'Desktop + Mobile'],
         featuredTechnologies: ['Flutter', 'Cubit', 'Clean Architecture'],
-        roleSummary:
-            'I managed Midadd from the initial idea and project study through planning and development: organizing requirements and scope, breaking features into tasks, coordinating the team, following up on implementation, and contributing to the visual identity.',
+        roles: [
+          ProjectContentGroup(
+            label: 'PROJECT MANAGEMENT',
+            title: 'From idea to development',
+            description:
+                'I managed Midadd from the initial idea and project study through planning and development: organizing requirements and scope, breaking features into tasks, coordinating the team, following up on implementation, and contributing to the visual identity.',
+          ),
+          ProjectContentGroup(
+            label: 'FLUTTER DEVELOPMENT',
+            title: 'The complete desktop application',
+            description:
+                'Alongside project management, I independently developed the complete Administration Desktop application in Flutter.',
+          ),
+        ],
+        challengeTitle: 'Scope, time & dependencies',
+        approachTitle: 'Clear features. Parallel work.',
+        technicalTitle: 'Administration Application',
         applications: [
           ProjectApplication(
             name: 'Administration',
@@ -137,26 +161,148 @@ abstract final class ProjectData {
     ),
     Project(
       id: 'enterprise-management-system',
-      title: 'Enterprise Management System',
-      subtitle: 'Enterprise operations across web and mobile',
-      role: 'Project Manager',
+      title: 'Dwamiey',
+      subtitle: 'Enterprise Management Platform',
+      role: 'Project Manager & Technical Contributor',
       description:
-          'Enterprise management platform designed for web and mobile environments.',
+          'Dwamiey is an enterprise management platform for web and mobile, designed to centralize employee operations, projects, communication, and day-to-day company workflows.',
       contributions: [
-        'Managed project execution',
-        'Coordinated cross-functional teams',
-        'Contributed to Flutter development',
-        'Supported Django and Next.js implementation',
-        'Participated in LiveKit integration',
-        'Coordinated production deployments',
+        'Took over and studied an existing web product',
+        'Managed testing, stabilization, and feature expansion',
+        'Coordinated the team’s mobile application development and release',
+        'Resolved issues in Django and Next.js with reviewed AI-assisted changes',
       ],
       technologies: ['Flutter', 'Next.js', 'Django', 'LiveKit'],
       images: [
-        'Operations dashboard',
-        'Mobile task flow',
-        'Live communication module',
+        _dwamieyWeb,
+        _dwamieyMobile,
+        ProjectImage(
+          caption: 'Internal communication',
+          assetPath: AppAssets.dwamieyCommunicationScreenshot,
+        ),
       ],
       type: ProjectType.web,
+      caseStudy: ProjectCaseStudy(
+        summary:
+            'Managed the evolution of an existing web platform through stabilization, feature expansion, and the team’s development and release of a new mobile application.',
+        platforms: ['Web', 'Mobile'],
+        indicators: ['Web + Mobile', 'Product Expansion', 'Team Delivery'],
+        featuredTechnologies: ['Next.js', 'Django', 'Flutter', 'LiveKit'],
+        roles: [
+          ProjectContentGroup(
+            label: 'PROJECT MANAGEMENT',
+            title: 'Taking over & moving forward',
+            description:
+                'I took over an existing web platform with a limited set of features. I managed the team through testing, stabilization, bug fixing, and feature expansion, then coordinated the team’s development and release of the mobile application.',
+          ),
+          ProjectContentGroup(
+            label: 'TECHNICAL CONTRIBUTION',
+            title: 'Understanding the existing system',
+            description:
+                'Alongside management, I investigated and resolved issues in the Django and Next.js codebase. I used AI assistance where needed and reviewed how proposed changes interacted with the system.',
+          ),
+        ],
+        evolution: [
+          ProjectContentGroup(
+            title: 'Existing Web Platform',
+            description:
+                'Took responsibility for a product with implemented features.',
+          ),
+          ProjectContentGroup(
+            title: 'Testing & Stabilization',
+            description:
+                'Worked with the team to understand behavior and identify issues.',
+          ),
+          ProjectContentGroup(
+            title: 'Bug Fixing',
+            description:
+                'Addressed existing functionality before further expansion.',
+          ),
+          ProjectContentGroup(
+            title: 'Feature Expansion',
+            description:
+                'Managed new functionality and improvements to existing features.',
+          ),
+          ProjectContentGroup(
+            title: 'Mobile App Development',
+            description:
+                'Coordinated the team building the mobile application.',
+          ),
+          ProjectContentGroup(
+            title: 'Web + Mobile Platform',
+            description: 'Released the expanded product across both surfaces.',
+          ),
+        ],
+        applications: [
+          ProjectApplication(
+            name: 'Web Application',
+            platform: 'Web',
+            description:
+                'The existing platform, stabilized and expanded with the team.',
+            image: _dwamieyWeb,
+          ),
+          ProjectApplication(
+            name: 'Mobile Application',
+            platform: 'Mobile',
+            description:
+                'Coordinated the team’s development of the mobile application and its integration into the existing platform.',
+            image: _dwamieyMobile,
+          ),
+        ],
+        capabilities: [
+          ProjectContentGroup(
+            title: 'Workforce',
+            description:
+                'Attendance • Leave • Employees • Branches • Departments',
+          ),
+          ProjectContentGroup(
+            title: 'Work Management',
+            description: 'Projects • Weekly reports • Workspaces',
+          ),
+          ProjectContentGroup(
+            title: 'Communication',
+            description:
+                'Encrypted internal chat • Encrypted meeting rooms with group video calls',
+          ),
+          ProjectContentGroup(title: 'Organization', description: 'Archive'),
+        ],
+        management: [
+          ProjectContentGroup(
+            title: 'Product Takeover',
+            description:
+                'Worked with the team to understand the existing product, its functionality, and its issues.',
+          ),
+          ProjectContentGroup(
+            title: 'Stabilization',
+            description:
+                'Coordinated testing, issue identification, and bug fixing before further expansion.',
+          ),
+          ProjectContentGroup(
+            title: 'Feature Expansion',
+            description:
+                'Managed continued development as new features and functionality were introduced.',
+          ),
+          ProjectContentGroup(
+            title: 'Cross-Platform Expansion',
+            description:
+                'Coordinated the team’s mobile development, integration, and release alongside the web platform.',
+          ),
+        ],
+        challengeTitle: 'An existing product, an unfamiliar stack',
+        challenge:
+            'Taking over and expanding an existing codebase outside my primary specialization while continuing to manage the project’s development.',
+        approachTitle: 'Understand, stabilize, then expand',
+        approach:
+            'I first studied the product, architecture, and application behavior. We tested and stabilized existing functionality before expanding it. For deeper framework-specific changes, I used AI assistance while reviewing the implementation and its effect on the system.',
+        technicalTitle: 'Working Beyond My Primary Stack',
+        technicalContribution:
+            'Flutter is my primary expertise. I had working knowledge, rather than deep professional experience, in Django and Next.js. Understanding the architecture, code structure, and behavior helped me investigate and resolve several issues across the backend and web application.',
+        technicalNote: ProjectContentGroup(
+          title: 'AI-Assisted Development',
+          description:
+              'I used Codex / AI assistance to bridge framework-specific knowledge gaps. Proposed changes were reviewed and understood before integration, including how they interacted with the existing system.',
+        ),
+      ),
     ),
     Project(
       id: 'restaurant-ordering-platform',
@@ -173,7 +319,11 @@ abstract final class ProjectData {
         'Published applications to Google Play and Apple App Store',
       ],
       technologies: ['Flutter', 'Dart', 'REST APIs', 'Android', 'iOS'],
-      images: ['Menu browsing', 'Checkout flow', 'Order tracking'],
+      images: [
+        ProjectImage(caption: 'Menu browsing'),
+        ProjectImage(caption: 'Checkout flow'),
+        ProjectImage(caption: 'Order tracking'),
+      ],
       type: ProjectType.mobile,
     ),
   ];
