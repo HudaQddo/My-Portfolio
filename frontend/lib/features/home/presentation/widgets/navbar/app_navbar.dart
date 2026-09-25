@@ -6,6 +6,7 @@ import '../../../../../core/constants/app_strings.dart';
 import '../../../../../core/responsive/responsive_extensions.dart';
 import '../../../../../core/theme/app_text_styles.dart';
 import '../../../../../core/widgets/app_icon_button.dart';
+import '../../../../../core/widgets/app_logo.dart';
 import '../../../../../core/widgets/primary_button.dart';
 import '../../pages/home_page.dart';
 
@@ -149,16 +150,7 @@ class _Logo extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          width: 42,
-          height: 42,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            border: Border.all(color: AppColors.primary),
-            borderRadius: BorderRadius.circular(AppSizes.radius12),
-          ),
-          child: Text(AppStrings.initials, style: AppTextStyles.label),
-        ),
+        const AppLogo(),
         const SizedBox(width: AppSizes.space12),
         Text(AppStrings.name, style: AppTextStyles.label),
       ],

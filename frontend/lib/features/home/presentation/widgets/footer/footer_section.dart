@@ -6,6 +6,7 @@ import '../../../../../core/constants/app_strings.dart';
 import '../../../../../core/responsive/responsive_extensions.dart';
 import '../../../../../core/theme/app_text_styles.dart';
 import '../../../../../core/widgets/app_section.dart';
+import '../../../../../core/widgets/app_logo.dart';
 import '../../../../../core/widgets/social_button.dart';
 import '../../../../contact/data/contact_data.dart';
 
@@ -62,16 +63,7 @@ class _FooterIdentity extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 42,
-            height: 42,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.primary),
-              borderRadius: BorderRadius.circular(AppSizes.radius12),
-            ),
-            child: Text(AppStrings.initials, style: AppTextStyles.label),
-          ),
+          const AppLogo(),
           const SizedBox(width: AppSizes.space12),
           Flexible(
             child: Column(

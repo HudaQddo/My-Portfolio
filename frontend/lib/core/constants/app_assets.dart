@@ -2,6 +2,7 @@ abstract final class AppAssets {
   static const imageRoot = 'assets/images/';
   static const iconRoot = 'assets/icons/';
   static const logoRoot = 'assets/logos/';
+  static const logo = '${logoRoot}logo.svg';
   static const projectRoot = 'assets/projects/';
 
   // Set these to paths under projectRoot when approved screenshots are added.

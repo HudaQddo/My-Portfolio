@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../core/widgets/app_logo.dart';
 
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_sizes.dart';
@@ -154,7 +155,7 @@ class _HeroVisual extends StatelessWidget {
             Positioned(
               top: 34,
               right: 34,
-              child: _BrandMark(size: context.isMobile ? 86 : 114),
+              child: AppLogo(size: context.isMobile ? 86 : 114),
             ),
             const Positioned(
               left: 34,
@@ -177,30 +178,6 @@ class _HeroVisual extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _BrandMark extends StatelessWidget {
-  const _BrandMark({required this.size});
-
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: AppColors.deepDark,
-        borderRadius: BorderRadius.circular(AppSizes.radius20),
-        border: Border.all(color: AppColors.primary),
-      ),
-      child: Text(
-        AppStrings.initials,
-        style: AppTextStyles.headingLarge.copyWith(color: AppColors.primary),
       ),
     );
   }
