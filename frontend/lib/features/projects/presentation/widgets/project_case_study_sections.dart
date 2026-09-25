@@ -10,6 +10,7 @@ import '../../../../core/widgets/section_header.dart';
 import '../../domain/entities/project.dart';
 import 'project_technology_list.dart';
 import 'project_process.dart';
+import 'project_status_badge.dart';
 
 class ProjectDetailsSection extends StatelessWidget {
   const ProjectDetailsSection({
@@ -53,11 +54,14 @@ class ProjectCardLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, constraints) {
-      final columns = context.isMobile
+      final availableColumns = context.isMobile
           ? 1
           : context.isTablet
           ? 2
           : desktopColumns;
+      final columns = children.isEmpty
+          ? 1
+          : availableColumns.clamp(1, children.length);
       final width =
           (constraints.maxWidth - AppSizes.space16 * (columns - 1)) / columns;
       return Wrap(
@@ -294,12 +298,22 @@ class ProjectTechnicalSection extends StatelessWidget {
           Text('Project technologies', style: AppTextStyles.label),
           const SizedBox(height: AppSizes.space12),
           ProjectTechnologyList(technologies: project.technologies),
+          if (project.caseStudy!.contextNote case final note?) ...[
+            const SizedBox(height: AppSizes.space24),
+            Text(note.title, style: AppTextStyles.label),
+            const SizedBox(height: AppSizes.space8),
+            Text(note.description, style: AppTextStyles.bodyMedium),
+          ],
           if (project.caseStudy!.technicalNote case final note?) ...[
             const Padding(
               padding: EdgeInsets.symmetric(vertical: AppSizes.space24),
               child: Divider(color: AppColors.border),
             ),
             Text(note.title, style: AppTextStyles.label),
+            if (note.label != null) ...[
+              const SizedBox(height: AppSizes.space8),
+              ProjectStatusBadge(label: note.label!),
+            ],
             const SizedBox(height: AppSizes.space8),
             Text(note.description, style: AppTextStyles.bodyMedium),
           ],

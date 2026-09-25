@@ -13,6 +13,8 @@ class Project {
     required this.type,
     this.caseStudy,
     this.status,
+    this.context,
+    this.primaryImage,
   });
 
   final String id;
@@ -26,6 +28,8 @@ class Project {
   final ProjectType type;
   final ProjectCaseStudy? caseStudy;
   final ProjectContentGroup? status;
+  final String? context;
+  final ProjectImage? primaryImage;
 
   String get route => '/projects/$id';
 }
@@ -72,8 +76,8 @@ class ProjectCaseStudy {
     required this.platforms,
     required this.indicators,
     required this.featuredTechnologies,
-    required this.roles,
-    required this.applications,
+    this.roles = const [],
+    this.applications = const [],
     this.management = const [],
     this.journey = const [],
     this.challenge,
@@ -90,6 +94,8 @@ class ProjectCaseStudy {
     this.team = const [],
     this.implementationTechnologies = const [],
     this.platformCaption = 'One platform. Multiple surfaces.',
+    this.features = const [],
+    this.contextNote,
   });
 
   final String summary;
@@ -114,4 +120,22 @@ class ProjectCaseStudy {
   final List<ProjectContentGroup> team;
   final List<String> implementationTechnologies;
   final String platformCaption;
+  final List<ProjectFeature> features;
+  final ProjectContentGroup? contextNote;
+}
+
+class ProjectFeature {
+  const ProjectFeature({
+    required this.title,
+    required this.description,
+    this.points = const [],
+    this.flow = const [],
+    this.images = const [],
+  });
+
+  final String title;
+  final String description;
+  final List<ProjectContentGroup> points;
+  final List<String> flow;
+  final List<ProjectImage> images;
 }

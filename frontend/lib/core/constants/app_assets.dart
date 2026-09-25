@@ -13,6 +13,11 @@ abstract final class AppAssets {
   static const String? chefOmarMobileScreenshot = null;
   static const String? chefOmarCartScreenshot = null;
   static const String? chefOmarAddressScreenshot = null;
+  static const String? sakinaPrayerScreenshot = null;
+  static const String? sakinaRadioScreenshot = null;
+  static const String? sakinaArabicLightScreenshot = null;
+  static const String? sakinaEnglishDarkScreenshot = null;
+  static const String? sakinaSettingsScreenshot = null;
 
   static const cv = 'assets/Huda_Qddo_CV.pdf';
 }

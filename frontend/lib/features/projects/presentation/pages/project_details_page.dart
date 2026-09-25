@@ -20,6 +20,7 @@ import '../widgets/project_evolution_timeline.dart';
 import '../widgets/project_platform_showcase.dart';
 import '../widgets/project_process.dart';
 import '../widgets/project_status_badge.dart';
+import '../widgets/project_feature_showcase.dart';
 
 class ProjectDetailsPage extends StatelessWidget {
   const ProjectDetailsPage({required this.projectId, super.key});
@@ -70,7 +71,11 @@ class ProjectDetailsPage extends StatelessWidget {
                         steps: project.caseStudy!.evolution,
                       ),
                     ),
-                  ProjectRoleSection(project: project),
+                  if (project.caseStudy!.roles.isNotEmpty)
+                    ProjectRoleSection(project: project),
+                  ...project.caseStudy!.features.map(
+                    (feature) => ProjectFeatureShowcase(feature: feature),
+                  ),
                   if (project.caseStudy!.ownership.isNotEmpty)
                     ProjectResponsibilitySection(
                       title: 'Frontend Ownership',
@@ -106,7 +111,7 @@ class ProjectDetailsPage extends StatelessWidget {
                         caption: project.caseStudy!.platformCaption,
                       ),
                     ),
-                  ] else
+                  ] else if (project.caseStudy!.applications.isNotEmpty)
                     ProjectDetailsSection(
                       title: 'The Ecosystem',
                       child: ProjectEcosystem(project: project),
@@ -240,6 +245,10 @@ class _ProjectHero extends StatelessWidget {
         ),
         const SizedBox(height: AppSizes.space16),
         Text(project.subtitle, style: AppTextStyles.bodyLarge),
+        if (project.context != null) ...[
+          const SizedBox(height: AppSizes.space12),
+          Text(project.context!, style: AppTextStyles.bodyMedium),
+        ],
         if (project.status != null) ...[
           const SizedBox(height: AppSizes.space16),
           ProjectStatusBadge(label: project.status!.title),

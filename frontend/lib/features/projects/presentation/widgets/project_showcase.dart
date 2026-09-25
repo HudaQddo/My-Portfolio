@@ -14,6 +14,7 @@ import 'project_evolution_timeline.dart';
 import 'project_process.dart';
 import 'project_status_badge.dart';
 import 'project_technology_list.dart';
+import 'project_gallery.dart';
 
 class ProjectShowcase extends StatelessWidget {
   const ProjectShowcase({
@@ -159,6 +160,26 @@ class ProjectPreviewPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final study = project.caseStudy;
+    if (project.primaryImage case final image?) {
+      return AppContainer(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(project.title, style: AppTextStyles.headingLarge),
+            const SizedBox(height: AppSizes.space16),
+            Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 260),
+                child: ProjectImagePreview(
+                  image: image,
+                  aspectRatio: image.assetPath == null ? 1.6 : 0.65,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
     if (study != null && study.ownership.isNotEmpty) {
       return AppContainer(
         child: Column(

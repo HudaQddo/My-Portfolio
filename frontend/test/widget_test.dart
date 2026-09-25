@@ -7,6 +7,20 @@ import 'package:frontend/core/theme/app_theme.dart';
 import 'package:frontend/core/routing/app_router.dart';
 
 void main() {
+  testWidgets('Sakina direct route resolves and returns home', (tester) async {
+    AppRouter.router.go('/projects/sakina');
+    await tester.pumpWidget(const PortfolioApp());
+    await tester.pumpAndSettle();
+    expect(find.text('Prayer Times Experience'), findsOneWidget);
+    expect(find.text('Under Refinement'), findsOneWidget);
+    await tester.tap(find.byTooltip('Back to portfolio'));
+    await tester.pumpAndSettle();
+    expect(find.text('View Projects'), findsOneWidget);
+    expect(find.text('Explore Case Study'), findsNWidgets(4));
+    expect(find.text('Under Refinement'), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('featured case study and next project navigation work', (
     tester,
   ) async {
@@ -20,31 +34,26 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Explore Case Study').first);
     await tester.pumpAndSettle();
-    expect(find.text('The Ecosystem'), findsOneWidget);
-    await tester.ensureVisible(find.text('Open'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Open'));
-    await tester.pumpAndSettle();
-    expect(find.text('Dwamiey'), findsWidgets);
-    expect(find.text('Product Evolution'), findsOneWidget);
-    await tester.ensureVisible(find.text('Open'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Open'));
-    await tester.pumpAndSettle();
-    expect(find.text('Chef Omar'), findsWidgets);
-    expect(find.text('Frontend Ownership'), findsOneWidget);
-    await tester.ensureVisible(find.text('Open'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Open'));
-    await tester.pumpAndSettle();
-    expect(find.text('The Ecosystem'), findsOneWidget);
+    expect(find.text('Prayer Times Experience'), findsOneWidget);
+    for (final heading in [
+      'Product Evolution',
+      'The Ecosystem',
+      'Frontend Ownership',
+      'Prayer Times Experience',
+    ]) {
+      await tester.ensureVisible(find.text('Open'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+      expect(find.text(heading), findsOneWidget);
+    }
     await tester.tap(find.byTooltip('Back to portfolio'));
     await tester.pumpAndSettle();
     await tester.ensureVisible(find.text('Explore Case Study').last);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Explore Case Study').last);
     await tester.pumpAndSettle();
-    expect(find.text('Ordering Flow'), findsOneWidget);
+    expect(find.text('Frontend Ownership'), findsOneWidget);
     expect(tester.takeException(), isNull);
     AppRouter.router.go('/');
     await tester.pumpAndSettle();
@@ -75,6 +84,44 @@ void main() {
   }
 
   for (final viewport in [const Size(320, 740), ...viewports]) {
+    testWidgets('Sakina renders at ${viewport.width}px with larger text', (
+      tester,
+    ) async {
+      tester.view
+        ..physicalSize = viewport
+        ..devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark,
+          home: MediaQuery(
+            data: MediaQueryData(
+              size: viewport,
+              textScaler: TextScaler.linear(1.2),
+            ),
+            child: const SelectionArea(
+              child: ProjectDetailsPage(projectId: 'sakina'),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Prayer Times Experience'), findsOneWidget);
+      expect(find.text('Adaptive Experience'), findsOneWidget);
+      expect(find.text('Under Refinement'), findsOneWidget);
+      expect(find.text('Internet required'), findsOneWidget);
+      expect(find.text('Project Management'), findsNothing);
+      expect(find.text('Production'), findsNothing);
+      expect(find.text('Web + Mobile'), findsNothing);
+      expect(find.textContaining('technical assessment'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.drag(find.byType(CustomScrollView), const Offset(0, -18000));
+      await tester.pumpAndSettle();
+      expect(find.text('Next Project').hitTestable(), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
     testWidgets('Chef Omar case study renders at ${viewport.width}px width', (
       tester,
     ) async {
