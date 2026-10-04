@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/equal_height_row.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
@@ -62,14 +63,18 @@ class ProjectCardLayout extends StatelessWidget {
       final columns = children.isEmpty
           ? 1
           : availableColumns.clamp(1, children.length);
-      final width =
-          (constraints.maxWidth - AppSizes.space16 * (columns - 1)) / columns;
-      return Wrap(
-        spacing: AppSizes.space16,
-        runSpacing: AppSizes.space16,
-        children: children
-            .map((child) => SizedBox(width: width, child: child))
-            .toList(),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var start = 0; start < children.length; start += columns) ...[
+            if (start > 0) const SizedBox(height: AppSizes.space16),
+            EqualHeightRow(
+              spacing: AppSizes.space16,
+              columns: columns,
+              children: children.skip(start).take(columns).toList(),
+            ),
+          ],
+        ],
       );
     },
   );

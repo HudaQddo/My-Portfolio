@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/equal_height_row.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
@@ -48,13 +49,9 @@ class ProjectShowcase extends StatelessWidget {
           ],
         ),
         desktop: (_) {
-          final children = [
-            Expanded(child: preview),
-            const SizedBox(width: AppSizes.space48),
-            Expanded(child: content),
-          ];
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          final children = [preview, content];
+          return EqualHeightRow(
+            spacing: AppSizes.space48,
             children: index.isOdd ? children.reversed.toList() : children,
           );
         },
